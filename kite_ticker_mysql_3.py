@@ -9,16 +9,18 @@ from kiteconnect import KiteConnect
 from selenium import webdriver
 import time
 
-os.chdir(r"C:\Users\deepa\PycharmProjects\zerodha\Fetch_Ticker_Data_Scripts")
+os.chdir(r"C:\Users\zerodha\PycharmProjects\zerodha\Fetch_Ticker_Data_Scripts")
+
+
 
 df = pd.read_csv('lookup_table_2.csv', delimiter=',')
 tokens = df.values.flatten().tolist()
 
 def autologin():
-    token_path = r'C:\Users\deepa\PycharmProjects\zerodha\Fetch_Ticker_Data_Scripts\all_keys.txt'
+    token_path = r'C:\Users\zerodha\PycharmProjects\zerodha\Fetch_Ticker_Data_Scripts\all_keys.txt'
     key_secret = open(token_path,'r').read().split()
     kite = KiteConnect(api_key=key_secret[0])
-    service = webdriver.chrome.service.Service(r"C:\Users\deepa\Downloads\chromedriver_win32\chromedriver")
+    service = webdriver.chrome.service.Service(r"C:\Users\zerodha\Downloads\chromedriver_win32\chromedriver")
     service.start()
     options = webdriver.ChromeOptions()
     options.add_argument('--headless')
@@ -36,29 +38,29 @@ def autologin():
     driver.find_element_by_xpath('//*[@id="container"]/div/div/div/form/div[3]/button').click()
     time.sleep(10)
     request_token = driver.current_url.split('=')[1].split('&action')[0]
-    with open(r'C:\Users\deepa\PycharmProjects\zerodha\Fetch_Ticker_Data_Scripts\my_request_token.txt', 'w') as the_file:
+    with open(r'C:\Users\zerodha\PycharmProjects\zerodha\Fetch_Ticker_Data_Scripts\my_request_token.txt', 'w') as the_file:
         the_file.write(request_token)
     driver.quit()
 
 autologin()
-request_token = open(r"C:\Users\deepa\PycharmProjects\zerodha\Fetch_Ticker_Data_Scripts\my_request_token.txt",
+request_token = open(r"C:\Users\zerodha\PycharmProjects\zerodha\Fetch_Ticker_Data_Scripts\my_request_token.txt",
                          'r').read()
 
 while len(request_token) < 30:
     print('trying_again')
     autologin()
-    request_token = open(r"C:\Users\deepa\PycharmProjects\zerodha\Fetch_Ticker_Data_Scripts\my_request_token.txt",
+    request_token = open(r"C:\Users\zerodha\PycharmProjects\zerodha\Fetch_Ticker_Data_Scripts\my_request_token.txt",
                          'r').read()
     print(request_token)
 
-token_path = r'C:\Users\deepa\PycharmProjects\zerodha\Fetch_Ticker_Data_Scripts\all_keys.txt'
+token_path = r'C:\Users\zerodha\PycharmProjects\zerodha\Fetch_Ticker_Data_Scripts\all_keys.txt'
 key_secret = open(token_path, 'r').read().split()
 kite = KiteConnect(api_key=key_secret[0])
 data = kite.generate_session(request_token, key_secret[5]) #2.2
 kite.set_access_token(data["access_token"])
 access_token = data["access_token"]
 print(access_token)
-with open(r'C:\Users\deepa\PycharmProjects\zerodha\Fetch_Ticker_Data_Scripts\access_token.txt', 'w') as the_file:
+with open(r'C:\Users\zerodha\PycharmProjects\zerodha\Fetch_Ticker_Data_Scripts\access_token.txt', 'w') as the_file:
     the_file.write(access_token)
 print(access_token)
 

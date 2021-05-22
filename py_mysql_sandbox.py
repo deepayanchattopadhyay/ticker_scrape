@@ -8,7 +8,7 @@
 #create database algo
 
 import pymysql
-db=pymysql.connect(host='localhost',user='root',password='1234',database='algo')
+db=pymysql.connect(host='localhost',user='root',password='12345',database='algo')
 insert_into_table='insert into ticks(instrument_token,last_price,volume,sell_qty,buy_qty,sell_0_quantity,sell_1_quantity,sell_2_quantity,sell_3_quantity,sell_4_quantity,buy_0_quantity,buy_1_quantity,buy_2_quantity,buy_3_quantity,buy_4_quantity,date) values(%(instrument_token)s,%(last_price)s,%(volume)s,%(sell_qty)s,%(buy_qty)s,%(sell_0_quantity)s,%(sell_1_quantity)s,%(sell_2_quantity)s,%(sell_3_quantity)s,%(sell_4_quantity)s,%(buy_0_quantity)s,%(buy_1_quantity)s,%(buy_2_quantity)s,%(buy_3_quantity)s,%(buy_4_quantity)s,%(date)s)'
 
 def insert_ticks(ticks):
